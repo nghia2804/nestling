@@ -4,7 +4,8 @@
       <h1 class="ui inverted header">
         Nestling
       </h1>
-      <h2>Home for CS 4460 Nest Visualizations</h2>
+      {{#if currentUser}}<h2>Welcome back {{currentUser.profile.firstName}}! </h2>
+      {{else}}<h2>Home for CS 4460 Nest Visualizations</h2>{{/if}}
     </div>
   </div>
 </template>

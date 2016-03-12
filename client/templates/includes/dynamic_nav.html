@@ -1,0 +1,10 @@
+<template name="dynamic_nav">
+  <div class="ui vertical inverted sidebar menu">
+    <a class="item {{routeStatus 'home'}}" href="{{pathFor route='home'}}">Home</a>
+    <a class="item {{routeStatus 'lines'}}" href="{{pathFor route='lines'}}">Time Series</a>
+    <a class="item {{routeStatus 'stars'}}" href="{{pathFor route='stars'}}">Star Plots</a>
+    <a class="item {{routeStatus 'parallels'}}" href="{{pathFor route='parallels'}}">Parallel Coordinates</a>
+    {{#if currentUser}}<a class="item red" id="logout">Log Out</a>
+    {{else}} <a class="item blue" id="login">Log In</a> {{/if}}
+  </div>
+</template>

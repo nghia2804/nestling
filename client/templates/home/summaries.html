@@ -6,7 +6,7 @@
         to view every dimension of your data through on a time-series. You are
         almost garanteed to gain valuable insight into your energy consumption
         habits (both good and bad)!</p>
-      <a class="ui large button">See Time Series</a>
+      <a class="ui large button" href="{{pathFor route='lines'}}">See Time Series</a>
 
       <h4 class="ui horizontal header divider">
         <img src="assets/images/nest-leaf.png" class="image">
@@ -16,7 +16,7 @@
       <p>Using small multiples of star plots, you will be able to visualize a
         week of Nest activity. Use interaction to remove data you are
         uninterested in to gain insight on your energy usage and home activity</p>
-      <a class="ui large button">See Small Multiples</a>
+      <a class="ui large button" href="{{pathFor route='stars'}}">See Small Multiples</a>
 
       <h4 class="ui horizontal header divider">
         <img src="assets/images/nest-leaf.png" class="image">
@@ -27,7 +27,7 @@
         days of the week, this parallel coordinates graph will solve all your
         problems. Use interaction to relocate axes, or gather more information
         via tooltips.</p>
-      <a class="ui large button">See Parallel Coordinates</a>
+      <a class="ui large button" href="{{pathFor route='parallels'}}">See Parallel Coordinates</a>
     </div>
   </div>
 </template>

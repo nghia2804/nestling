@@ -1,0 +1,38 @@
+<template name="enroll">
+  <style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+
+  <div class="ui vertical stripe segment">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui image blue header">
+          <div class="content">
+            Set Password for Your Account
+          </div>
+        </h2>
+        <form id="login-form" class="ui large form">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input id="login-password" type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <div class="ui fluid large submit button" type="submit">Set Password</div>
+          <div class="ui error message"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
