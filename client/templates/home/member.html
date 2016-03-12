@@ -1,0 +1,28 @@
+<template name="member">
+  <div class="card column">
+    <div class="image">
+      <img src="{{picture}}">
+    </div>
+    <div class="content">
+      <div class="header">{{name}}</div>
+      <div class="meta">
+        <a>{{role}}</a>
+      </div>
+      <div class="description">
+        {{desc}}
+      </div>
+    </div>
+    <div class="extra content">
+      <span class="right floated">
+        <a href="{{link}}">
+          <i class="github square icon"></i>
+          {{username}}
+        </a>
+      </span>
+      <span>
+        <i class="student icon"></i>
+        {{major}}
+      </span>
+    </div>
+  </div>
+</template>

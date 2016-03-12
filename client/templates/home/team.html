@@ -1,0 +1,44 @@
+<template name="team">
+  <div class="ui vertical stripe segment">
+    <div class="ui text container">
+      <h2 class="ui center aligned icon header" style="padding-bottom: 20px;">
+        <i class="circular users icon"></i>
+          The Nestling Team
+      </h2>
+    </div>
+
+    <div class="ui link four stackable cards container">
+      {{> member name = "Andrew Osborn"
+          picture = "/assets/images/andrew.jpg"
+          role = "Team Lead/Back-end Developer"
+          desc = "Andrew is the team's backend developer and \"team lead\"(not saying he's actually qualified)."
+          link = "http://github.com/theosbornidentity"
+          username = "theosbornidentity"
+          major = "GTCS"}}
+
+      {{> member name = "Nghia Huynh"
+          picture = "/assets/images/nghia.png"
+          role = "Front-end Developer"
+          desc = "Nghia is our front-end designer, so if you like the front-end give this man a shoutout."
+          link = "http://github.com/"
+          username = "unknown"
+          major = "GTCM"}}
+
+      {{> member name = "Casey Bennett"
+          picture = "/assets/images/casey.png"
+          role = "Task Manager"
+          desc = "Casey keeps the entire team on task and on time. If you think this job is easy: trust us, you're wrong."
+          link = "https://github.gatech.edu/cbennett31/"
+          username = "cbennett31"
+          major = "GTCS"}}
+
+      {{> member name = "Don Geldbach"
+          picture = "/assets/images/user.png" 
+          role = "Video Editor"
+          desc = "Don is the master video editor for the group, so you know you'll be on the edge of your seat when watching our video."
+          link = "http://github.com/dgeldbach"
+          username = "dgeldbach"
+          major = "GTCS"}}
+    </div>
+  </div>
+</template>

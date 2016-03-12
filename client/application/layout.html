@@ -1,0 +1,10 @@
+<template name="layout">
+  <body class="pushable">
+    {{> dynamic_nav}}
+    <div class="pusher">
+      {{> navbar}}
+      {{> yield}}
+      {{> footer}}
+    </div>
+  </body>
+</template>
