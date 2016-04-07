@@ -16,17 +16,16 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-insecure                # Allow all DB writes from clients (for prototyping)
 semantic:ui
 flemay:less-autoprefixer
 d3js:d3
-http
 meteortoys:allthings
 iron:router
 sacha:spin
 reactive-var
-percolate:synced-cron
-accounts-password
-alanning:roles
-useraccounts:semantic-ui
 hyperborea:datamaps
+mrt:topojson
+aldeed:collection2
+harrison:papa-parse
+aldeed:simple-schema
+autopublish
