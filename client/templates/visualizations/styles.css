@@ -1,0 +1,16 @@
+table {
+	position: center;
+	visibility: hidden;
+}
+
+#container {
+	position: relative; 
+	width: 1000px; 
+	height: 600px;
+}
+
+td {
+	padding-left: 50px;
+	padding-right: 50px;
+
+}
