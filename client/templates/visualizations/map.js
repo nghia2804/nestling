@@ -96,11 +96,11 @@ Template.map.rendered = function() {
 	  },
 
 	  fills: {
-	  "200": "#668CFF",
-	  "400": "#1a53ff",
-	  "600": "#0039e6",
-	  "over600": "#002699",
-	  defaultFill: "#e6ecff"
+	  "200": "#709370",
+	  "400": "#5b845b",
+	  "600": "#477547",
+	  "over600": "#336633",
+	  defaultFill: "#d6e0d6"
 	},
 	data:{
 	  "AZ": {
@@ -283,37 +283,34 @@ Template.map.rendered = function() {
 
 	var showCharts = d3.selectAll("path")
 		.on("click", function(d) {
+			var list = '<li>' + d.properties.name + '</li>';
+			document.getElementById('statelist').innerHTML = list;
 			var id = getDBid(d.id);
 			drawChart(id);
+			drawParCoords(id);
 			d3.selectAll("table")
 			.style("visibility", "visible");
 		});
 
-
-
-
-
-
-
 	function drawChart(q) {
 
-		var marginChart = {top: 50, right: 0, bottom: 30, left: 80};
+		var marginChart = {top: 50, right: 0, bottom: 30, left: 50};
 		var widthChart = 620 - marginChart.left - marginChart.right;
 		var heightChart = 400 - marginChart.top - marginChart.bottom;
 
 		var x = d3.scale.ordinal()
-		.rangeRoundBands([0, widthChart], .1);
+			.rangeRoundBands([0, widthChart], .1);
 
 		var y = d3.scale.linear()
-		.range([heightChart, 0]);
+			.range([heightChart, 0]);
 
 		var xAxisChart = d3.svg.axis()
-		.scale(x)
-		.orient("bottom");
+			.scale(x)
+			.orient("bottom");
 
 		var yAxisChart = d3.svg.axis()
-		.scale(y)
-		.orient("left");
+			.scale(y)
+			.orient("left");
 
 
 		var chart = d3.select(".chart");
@@ -322,9 +319,9 @@ Template.map.rendered = function() {
 
 		var svgChart = d3.select(".chart").append("svg")
 		   .attr("width", widthChart + marginChart.left + marginChart.right)
-		    .attr("height", heightChart + marginChart.top + marginChart.bottom)
-		  .append("g")
-		    .attr("transform", "translate(" + marginChart.left + "," + marginChart.top + ")");
+		   .attr("height", heightChart + marginChart.top + marginChart.bottom)
+		   .append("g")
+		   .attr("transform", "translate(" + marginChart.left + "," + marginChart.top + ")");
 
 
 		var btus = ["Heating \n BTUs", "Cooling \n BTUs", "Water \n BTUs", "Ref \n BTUs", "Other \n BTUs", "Total \n BTUs"];
@@ -358,14 +355,14 @@ Template.map.rendered = function() {
 
 		svgChart.append("g")
 				.attr("class", "y axis")
-				.style("fill", "black")
+				.style("fill", "1a331a")
 				.call(yAxisChart)
 			.append("text")
 				.attr("transform", "rotate(-90)")
 				.attr("y", 6)
 				.attr("dy", ".71em")
 				.style("text-anchor", "end")
-				.style("fill", "black")
+				.style("fill", "#1a331a")
 				.text("Average BTUs");
 
 
@@ -378,13 +375,100 @@ Template.map.rendered = function() {
 		      .attr("width", x.rangeBand())
 		      .attr("y", function(d) { return y(d); })
 		      .attr("transform", function(d) {
-		      	var xVal = (91 * barFix);
+		      	var xVal = (92 * barFix + 12);
 		      	barFix++;
 		      	return "translate(" + xVal + "," + 0 + ")" ; } )
 		      .attr("height", function(d) { return heightChart - y(d); })
-		      .style("fill", "black");
+		      .style("fill", "#333366");
 	}
 
-	
+	function drawParCoords(q) {
 
+		var pcgraph = document.getElementById('pcchart');
+
+		var margin = {top: 50, right: 10, bottom: 30, left: 10},
+		    width = 1200 - margin.left - margin.right,
+		    height = 400 - margin.top - margin.bottom;
+
+		var x = d3.scale.ordinal().rangePoints([0, width], 1),
+		    y = {};
+
+		var line = d3.svg.line(),
+		    axis = d3.svg.axis().orient("left"),
+		    background,
+		    foreground;
+
+		var chart = d3.select(".parcoords");
+		chart.selectAll("svg").remove();
+
+		var svg = d3.select(pcgraph).append("svg")
+		    .attr("width", width + margin.left + margin.right)
+		    .attr("height", height + margin.top + margin.bottom)
+		  	.append("g")
+		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		var dataset = Data.find({domain: q}).fetch();
+
+		x.domain(dimensions = d3.keys(dataset[0]).filter(function(d) {
+    		return (d == "heatBTU" || d == "coolBTU" || d == "waterBTU" || d == "refBTU" || d == "otherBTU" ) && (y[d] = d3.scale.linear()
+       		.domain(d3.extent(dataset, function(p) { return +p[d]; }))
+        	.range([height, 0]));
+  			}));
+
+		// Add grey background lines for context.
+	  	background = svg.append("g")
+	    	.attr("class", "background")
+	    	.selectAll("path")
+	      	.data(dataset)
+	    	.enter().append("path")
+	      	.attr("d", path);
+
+	  	// Add blue foreground lines for focus.
+	  	foreground = svg.append("g")
+	      	.attr("class", "foreground")
+	    	.selectAll("path")
+	      	.data(dataset)
+	    	.enter().append("path")
+	      	.attr("d", path);
+
+	    // Add a group element for each dimension.
+  		var g = svg.selectAll(".dimension")
+      		.data(dimensions)
+    		.enter().append("g")
+      		.attr("class", "dimension")
+      		.attr("transform", function(d) { return "translate(" + x(d) + ")"; });
+
+      	// Add an axis and title.
+		g.append("g")
+		    .attr("class", "axis")
+		    .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+		    .append("text")
+		      .style("text-anchor", "middle")
+		      .attr("y", -9)
+		      .text(function(d) { return d; });
+
+		// Add and store a brush for each axis.
+		g.append("g")
+		    .attr("class", "brush")
+		    .each(function(d) { d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brush", brush)); })
+		    .selectAll("rect")
+		    .attr("x", -8)
+		    .attr("width", 16);
+
+		// Returns the path for a given data point.
+		function path(d) {
+  			return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+		}
+
+		// Handles a brush event, toggling the display of foreground lines.
+		function brush() {
+  			var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+      		extents = actives.map(function(p) { return y[p].brush.extent(); });
+  			foreground.style("display", function(d) {
+    			return actives.every(function(p, i) {
+      			return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+    			}) ? null : "none";
+  			});
+  		}
+  	}
 };
