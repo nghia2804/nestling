@@ -102,11 +102,19 @@ Template.map.rendered = function() {
 	  },
 
 	  fills: {
+<<<<<<< HEAD
 	  "200": "#709370", // 1-200
 	  "400": "#5b845b", // 201 - 400
 	  "600": "#477547", // 401 - 600
 	  "over600": "#336633", // 601 - whatever
 	  defaultFill: "#eef6ee" // 0
+=======
+	  "200": "#709370",
+	  "400": "#5b845b",
+	  "600": "#477547",
+	  "over600": "#336633",
+	  defaultFill: "#d6e0d6"
+>>>>>>> theosbornidentity/master
 	},
 	data:{
 	  "AZ": {
@@ -293,6 +301,7 @@ Template.map.rendered = function() {
   var isState1Select = 0; // 0 = no , 1 = yes
   var selectedState;
 
+<<<<<<< HEAD
   var renderLabelUpdate= function() {
   	$('#message').addClass('hidden');
   	var tag;
@@ -384,6 +393,24 @@ Template.map.rendered = function() {
 		var marginChart = {top: 50, right: 0, bottom: 30, left: 50};
 		var widthChart = $(view).innerWidth() - marginChart.left - marginChart.right;
 		var heightChart = $(view).innerWidth() * 0.75 - marginChart.top - marginChart.bottom;
+=======
+	var showCharts = d3.selectAll("path")
+		.on("click", function(d) {
+			var list = '<li>' + d.properties.name + '</li>';
+			document.getElementById('statelist').innerHTML = list;
+			var id = getDBid(d.id);
+			drawChart(id);
+			drawParCoords(id);
+			d3.selectAll("table")
+			.style("visibility", "visible");
+		});
+
+	function drawChart(q) {
+
+		var marginChart = {top: 50, right: 0, bottom: 30, left: 50};
+		var widthChart = 620 - marginChart.left - marginChart.right;
+		var heightChart = 400 - marginChart.top - marginChart.bottom;
+>>>>>>> theosbornidentity/master
 
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([0, widthChart], .1);
@@ -465,6 +492,7 @@ Template.map.rendered = function() {
 		      .attr("width", x.rangeBand())
 		      .attr("y", function(d) { return y(d); })
 		      .attr("transform", function(d) {
+<<<<<<< HEAD
 		      	var xVal = ((widthChart / 6) * barFix + 8);
 		      	barFix++;
 		      	return "translate(" + xVal + "," + 0 + ")" ; } )
@@ -614,6 +642,22 @@ Template.map.rendered = function() {
 		var margin = {top: 50, right: 0, bottom: 30, left: 20},
 		    width = $(view).innerWidth()*1 - margin.left - margin.right,
 		    height = $(view).innerWidth()*0.75 - margin.top - margin.bottom;
+=======
+		      	var xVal = (92 * barFix + 12);
+		      	barFix++;
+		      	return "translate(" + xVal + "," + 0 + ")" ; } )
+		      .attr("height", function(d) { return heightChart - y(d); })
+		      .style("fill", "#333366");
+	}
+
+	function drawParCoords(q) {
+
+		var pcgraph = document.getElementById('pcchart');
+
+		var margin = {top: 50, right: 10, bottom: 30, left: 10},
+		    width = 1200 - margin.left - margin.right,
+		    height = 400 - margin.top - margin.bottom;
+>>>>>>> theosbornidentity/master
 
 		var x = d3.scale.ordinal().rangePoints([0, width], 1),
 		    y = {};
@@ -622,6 +666,7 @@ Template.map.rendered = function() {
 		    axis = d3.svg.axis().orient("left"),
 		    background,
 		    foreground;
+<<<<<<< HEAD
 
 		var chart = d3.select(id);
 		chart.selectAll("svg").remove();
@@ -656,6 +701,42 @@ Template.map.rendered = function() {
 	    	.enter().append("path")
 	      	.attr("d", path);
 
+=======
+
+		var chart = d3.select(".parcoords");
+		chart.selectAll("svg").remove();
+
+		var svg = d3.select(pcgraph).append("svg")
+		    .attr("width", width + margin.left + margin.right)
+		    .attr("height", height + margin.top + margin.bottom)
+		  	.append("g")
+		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		var dataset = Data.find({domain: q}).fetch();
+
+		x.domain(dimensions = d3.keys(dataset[0]).filter(function(d) {
+    		return (d == "heatBTU" || d == "coolBTU" || d == "waterBTU" || d == "refBTU" || d == "otherBTU" ) && (y[d] = d3.scale.linear()
+       		.domain(d3.extent(dataset, function(p) { return +p[d]; }))
+        	.range([height, 0]));
+  			}));
+
+		// Add grey background lines for context.
+	  	background = svg.append("g")
+	    	.attr("class", "background")
+	    	.selectAll("path")
+	      	.data(dataset)
+	    	.enter().append("path")
+	      	.attr("d", path);
+
+	  	// Add blue foreground lines for focus.
+	  	foreground = svg.append("g")
+	      	.attr("class", "foreground")
+	    	.selectAll("path")
+	      	.data(dataset)
+	    	.enter().append("path")
+	      	.attr("d", path);
+
+>>>>>>> theosbornidentity/master
 	    // Add a group element for each dimension.
   		var g = svg.selectAll(".dimension")
       		.data(dimensions)

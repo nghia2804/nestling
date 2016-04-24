@@ -3,6 +3,7 @@ table {
 	visibility: hidden;
 }
 
+<<<<<<< HEAD
 .tooltip {
 	position: absolute;
 	width: 200px;
@@ -11,6 +12,15 @@ table {
 }
 
 
+=======
+#container {
+	position: relative; 
+	width: 800px; 
+	height: 500px;
+	float: left;
+}
+
+>>>>>>> theosbornidentity/master
 #body {
 	width: 1000px; 
 	height: 500px; 
@@ -40,7 +50,11 @@ svg {
 
 .foreground path {
 	fill: none;
+<<<<<<< HEAD
 	stroke: #310D20;
+=======
+	stroke: #663333;
+>>>>>>> theosbornidentity/master
 }
 
 .brush .extent {
@@ -62,6 +76,7 @@ svg {
 }
 
 
+<<<<<<< HEAD
 #states-picker {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -331,3 +346,6 @@ div.tooltip {
   border-radius: 8px;           
   pointer-events: none;         
 }
+=======
+
+>>>>>>> theosbornidentity/master
