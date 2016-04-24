@@ -20,6 +20,9 @@ table {
 	float: left;
 }
 
+<<<<<<< HEAD
+>>>>>>> theosbornidentity/master
+=======
 >>>>>>> theosbornidentity/master
 #body {
 	width: 1000px; 
@@ -51,7 +54,11 @@ svg {
 .foreground path {
 	fill: none;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	stroke: #310D20;
+=======
+	stroke: #663333;
+>>>>>>> theosbornidentity/master
 =======
 	stroke: #663333;
 >>>>>>> theosbornidentity/master
@@ -76,6 +83,7 @@ svg {
 }
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #states-picker {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
@@ -346,6 +354,9 @@ div.tooltip {
   border-radius: 8px;           
   pointer-events: none;         
 }
+=======
+
+>>>>>>> theosbornidentity/master
 =======
 
 >>>>>>> theosbornidentity/master

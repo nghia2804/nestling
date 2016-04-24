@@ -6,7 +6,11 @@ function drawChart(q, id) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 function drawParCoords(q, id) {
+=======
+function drawParCoords(q) {
+>>>>>>> theosbornidentity/master
 =======
 function drawParCoords(q) {
 >>>>>>> theosbornidentity/master

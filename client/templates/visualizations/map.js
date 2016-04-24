@@ -103,17 +103,23 @@ Template.map.rendered = function() {
 
 	  fills: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	  "200": "#709370", // 1-200
 	  "400": "#5b845b", // 201 - 400
 	  "600": "#477547", // 401 - 600
 	  "over600": "#336633", // 601 - whatever
 	  defaultFill: "#eef6ee" // 0
 =======
+=======
+>>>>>>> theosbornidentity/master
 	  "200": "#709370",
 	  "400": "#5b845b",
 	  "600": "#477547",
 	  "over600": "#336633",
 	  defaultFill: "#d6e0d6"
+<<<<<<< HEAD
+>>>>>>> theosbornidentity/master
+=======
 >>>>>>> theosbornidentity/master
 	},
 	data:{
@@ -493,6 +499,7 @@ Template.map.rendered = function() {
 		      .attr("y", function(d) { return y(d); })
 		      .attr("transform", function(d) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		      	var xVal = ((widthChart / 6) * barFix + 8);
 		      	barFix++;
 		      	return "translate(" + xVal + "," + 0 + ")" ; } )
@@ -643,6 +650,8 @@ Template.map.rendered = function() {
 		    width = $(view).innerWidth()*1 - margin.left - margin.right,
 		    height = $(view).innerWidth()*0.75 - margin.top - margin.bottom;
 =======
+=======
+>>>>>>> theosbornidentity/master
 		      	var xVal = (92 * barFix + 12);
 		      	barFix++;
 		      	return "translate(" + xVal + "," + 0 + ")" ; } )
@@ -657,6 +666,9 @@ Template.map.rendered = function() {
 		var margin = {top: 50, right: 10, bottom: 30, left: 10},
 		    width = 1200 - margin.left - margin.right,
 		    height = 400 - margin.top - margin.bottom;
+<<<<<<< HEAD
+>>>>>>> theosbornidentity/master
+=======
 >>>>>>> theosbornidentity/master
 
 		var x = d3.scale.ordinal().rangePoints([0, width], 1),
@@ -667,11 +679,19 @@ Template.map.rendered = function() {
 		    background,
 		    foreground;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 		var chart = d3.select(id);
 		chart.selectAll("svg").remove();
 
 		var svg = d3.select(id).append("svg")
+=======
+
+		var chart = d3.select(".parcoords");
+		chart.selectAll("svg").remove();
+
+		var svg = d3.select(pcgraph).append("svg")
+>>>>>>> theosbornidentity/master
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
 		  	.append("g")
@@ -700,6 +720,7 @@ Template.map.rendered = function() {
 	      	.data(dataset)
 	    	.enter().append("path")
 	      	.attr("d", path);
+<<<<<<< HEAD
 
 =======
 
@@ -735,6 +756,9 @@ Template.map.rendered = function() {
 	      	.data(dataset)
 	    	.enter().append("path")
 	      	.attr("d", path);
+
+>>>>>>> theosbornidentity/master
+=======
 
 >>>>>>> theosbornidentity/master
 	    // Add a group element for each dimension.
