@@ -3,12 +3,13 @@ table {
 	visibility: hidden;
 }
 
-#container {
-	position: relative; 
-	width: 800px; 
-	height: 500px;
-	float: left;
+.tooltip {
+	position: absolute;
+	width: 200px;
+	height: 28px;
+	pointer-events: none;
 }
+
 
 #body {
 	width: 1000px; 
@@ -39,7 +40,7 @@ svg {
 
 .foreground path {
 	fill: none;
-	stroke: #663333;
+	stroke: #310D20;
 }
 
 .brush .extent {
@@ -61,4 +62,272 @@ svg {
 }
 
 
+#states-picker {
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
 
+#container {
+	max-width: 50%; 
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+
+#states-list {
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    padding-top: 60px;
+}
+
+#states-view {
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+}
+
+#donutchart-view {
+	display: -webkit-box;  	   /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+}
+
+#donut-option {
+	display: -webkit-box;  	   /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+}
+
+#donut-chart1{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+#donut-chart2{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+
+#barchart-compare {
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+
+#state1-view {
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+#state2-view {
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;
+}
+
+.hidden {
+	display: none;
+}
+
+
+.label1{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #171219;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+.label2{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #310D20;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+.label3{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #336633;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+.label4{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #440D0F;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+#donut-label {
+	background-color: #336633;
+	height: 50px; 
+	margin-top: 30px;
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+#statename-view {
+	display: -webkit-box;  	   /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+}
+
+#statechart-option-view{
+	display: -webkit-box;  	   /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+}
+
+#statechart-view{
+	display: -webkit-box;  	   /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+    -webkit-justify-content: center; /* Safari 6.1+ */
+    justify-content: center;
+
+}
+
+#statechart1-view{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 50%;	
+}
+
+#statechart2-view{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 75%;	
+}
+
+#statechart3-view{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 75%;	
+}
+
+.statename-label-div{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 100%;	
+
+}
+
+.statechart-div{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 80%;	
+
+}
+
+.statecharts-label-div{
+	-webkit-flex-grow: 1;
+    flex-grow: 1;
+    max-width: 33.33%;	
+}
+
+#statechart1-label{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #171219;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+#statechart2-label{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #310D20;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+#statechart3-label{
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	background-color: #440D0F;
+	height: 50px; 
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+body {
+  font: 11px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}

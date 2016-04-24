@@ -1,4 +1,4 @@
-Template.map.rendered = function() {
+Template.comparision.rendered = function() {
 
   var connecticut = Data.find({domain: 2}).count();
   var massachussets = Data.find({domain: 3}).count();
@@ -89,6 +89,9 @@ Template.map.rendered = function() {
   var ct = document.querySelector('#container');
   console.log($('#container'));
   $('#container').innerHeight($('#container').innerWidth() * 0.6);
+  //ct.clientHeight = ct.clientWidth * 0.75;
+  //console.log(ct.clientWidth);
+  //console.log(ct.clientHeight);
 
   var map = new Datamap({
     scope: 'usa',
@@ -288,19 +291,50 @@ Template.map.rendered = function() {
   });
 
   var state1;
+  var state2;
   var mode = 0;	// 0: single, 1: compare
   var chartmode = 0; // 0 = bar chart, 1: par char, 2: scatter plot
   var isState1Select = 0; // 0 = no , 1 = yes
-  var selectedState;
 
-  var renderLabelUpdate= function() {
+ 
+  var selectedList = [];
+
+  var renderSelectedList = function() {
   	$('#message').addClass('hidden');
-  	var tag;
-	if (getDBid(selectedState.id) != -1) {
-  		document.getElementById('statename-label').innerHTML =  selectedState.properties.name;
-  		tag = '<div><h3> Selected State: '+ selectedState.properties.name + '</h3></div>';
+  	var uniqueList = [];
+  	var last = 5;
+  	var tag = '<form>';
+  	for (var i = selectedList.length -1; i >= 0 && last >= 0; i--) {
+  		if (getDBid(selectedList[i].id) != -1) {
+  			if (uniqueList.indexOf(selectedList[i].id) == -1) {
+  				uniqueList.push(selectedList[i].id);
+  				if (last == 5) {
+  					document.getElementById('statename-label').innerHTML =  selectedList[i].properties.name;
+  					tag += '<div><h3> Selected State: '+ selectedList[i].properties.name + '</h3></div>';
+  					tag += '<div><h3>Select 2nd State for comparision:</h3></div>';
+  				} else {
+  					tag += '<div><input type="radio" name="state" data-index="' + getDBid(selectedList[i].id) + '" id="' + selectedList[i].id + '"><label for="' + selectedList[i].id + '">  ' + selectedList[i].properties.name + '</label></div>';	
+  				}
+  				last--;
+  			}
+  		}
    	}
+  	tag += '</form>';
   	$('#list').html(tag);
+
+	$('input[name="state"]').on('change', function() {
+		console.log($(this).attr('data-index'));
+		state2 = $(this).attr('data-index');
+		mode = 1;
+		document.getElementById('state2-label').innerHTML = $('label[for="' + $(this).attr('id') + '"]').html();
+		renderLayout();
+		renderCharts1(parseInt(state1));
+		renderCharts2(parseInt(state2));
+		renderChartCompare(parseInt(state1), parseInt(state2));
+		renderDonutChart(parseInt(state1), parseInt(state2)); 
+		renderDonutChartList();
+
+	});
   }
 
   $('.chartlabel-click').click(function() {
@@ -328,7 +362,6 @@ Template.map.rendered = function() {
   			$('#statechart1-view').addClass('hidden');
   			$('#statechart2-view').addClass('hidden');
   			$('#statechart3-view').removeClass('hidden');
-  			$('#statechart3-view').css({'height': '600px'})
   		} else {
   			$('#statechart1-view').addClass('hidden');
   			$('#statechart2-view').addClass('hidden');
@@ -346,18 +379,93 @@ Template.map.rendered = function() {
   		}
   }
 
-  renderSingleLayout();
+  var renderLayout = function () {
+  	if (mode == 0) {
+  		renderSingleLayout();
+  		$('#statechart1-view').addClass('hidden');
+  		$('#state1-view').css({'max-width': '50%'});
+  		$('#state2-view').css({'max-width': '50%'});
+  		$('#comparechart-view1').css({'max-width': '80%'});
+  		$('#state2-view').addClass('hidden');
+  		$('#compare-view').addClass('hidden');
+
+  		$('#comparechart-view1').addClass('hidden');
+  	} else if (mode == 1) {
+  		$('#state1-view').css({'max-width': '50%'});
+  		$('#state2-view').css({'max-width': '50%'});
+  		$('#comparechart-view1').css({'max-width': '80%'});
+  		$('#state1-view').removeClass('hidden');
+  		$('#state2-view').removeClass('hidden');
+  		$('#compare-view').removeClass('hidden');
+  	}
+  }
+  renderLayout();
 
   var renderSingleChart = function(id){
   	if (chartmode == 0) {
   		drawChart(parseInt(state1), "#barchart", "#statechart1-view");
-  		$('#statechart1-view').html += "<div> <h3 style=\"text-align: center;\"> Everage Energy Consumption</h3></div><div> <h3 style=\"text-align: center;\"> Of Different Types in 2009 (BTUs)</h3></div>";
   	} else if (chartmode == 1) {
   		drawParCoords(parseInt(state1), "#pcchart", "#statechart2-view");
-  		$('#statechart2-view').html += "<div> <h3 style=\"text-align: center;\"> Parallel Coordinates Chart of Everage Energy Consumption</h3></div><div> <h3 style=\"text-align: center;\"> Of Different Types in 2009 (BTUs)</h3></div>";
   	} else if (chartmode == 2) {
-  		drawScatterPlot(parseInt(state1), "heatBTU", "coolBTU", "built" ,"#plotchart", "#statechart3-view");
+  		drawScatterPlot(parseInt(state1), "heatBTU", "coolBTU", "built" ,"#plotchart", "#statechart3-view") 
   	}
+  }
+  
+  var renderCharts1 = function (id) {
+  	if (mode == 0) {
+  		drawChart(id, "#barchart1", "#state1-view");
+  		drawParCoords(id, "#pcchart1", "#state1-view");
+  		$('#barchart1').removeClass('hidden');
+  	} else if (mode == 1) {
+  		//drawChart(id, "#barchart1", "#state1-view");
+		$('#barchart1').addClass('hidden');
+		$('#pcchart1').addClass('hidden');
+  	}
+	d3.selectAll("table")
+	.style("visibility", "visible");
+  }
+
+  var renderCharts2 = function (id) {
+  	if (mode == 0) {
+  		$('#barchart2').removeClass('hidden');
+
+  	} else if (mode == 1) {
+  		//drawChart(id, "#barchart2", "#state2-view");
+  		$('#barchart2').addClass('hidden');
+  	}
+	d3.selectAll("table")
+	.style("visibility", "visible");
+  }
+
+  var renderChartCompare = function (id1, id2) {
+  	if (mode == 0) {
+
+  	} else if (mode == 1) {
+  		drawChartCompare( id1, id2,"#barchart-compare" ,"#comparechart-view1")
+  	}
+  }
+
+  var renderDonutChart = function (id1, id2) {
+  	if (mode == 0) {
+
+  	} else if (mode == 1) {
+  		//donutchart(id1, opt, "#donut-chart1", "#donutchart-view");
+  		//donutchart(id2, opt, "#donut-chart2", "#donutchart-view");
+
+  	}
+
+  }
+
+  var renderDonutChartList = function () {
+  	var tag = '<form>';
+  	tag += '<div> <input type="radio" name="donutoption" data-index="NHSLDMEM" id="NHSLDMEM"><label for="NHSLDMEM"> Number of Household</label> </div>';
+  	tag += '<div> <input type="radio" name="donutoption" data-index="MONEYPY" id="MONEYPY"><label for="MONEYPY"> Gross Household Income (2009)</label> </div>';	
+  	tag += '<div> <input type="radio" name="donutoption" data-index="TOTSQFT" id="TOTSQFT"><label for="TOTSQFT"> Total Square Footage</label> </div>';	
+  	tag += '<div> <input type="radio" name="donutoption" data-index="YEARMADERANGE" id="YEARMADERANGE"><label for="YEARMADERANGE"> Built Year Range</label> </div>';	
+  	tag += '<div> <input type="radio" name="donutoption" data-index="PROTHERM" id="PROTHERM"><label for="PROTHERM"> Has Smart Thermostat</label> </div>';		
+  	tag += '</form>';
+  	$('#donutlist').html(tag);
+  	console.log("print donutlist");
   }
 
  
@@ -366,17 +474,16 @@ Template.map.rendered = function() {
 		.on("click", function(d) {
 			mode = 0;
 			state1 = getDBid(d.id);
-			selectedState = d;
+			selectedList.push(d);
+			renderSelectedList();
+			console.log(selectedList);
 			if (state1 != -1 ){
 				isState1Select = 1;
 				console.log("State1: " + parseInt(state1));
-				renderLabelUpdate();
 				renderSingleLayout();
 				renderSingleChart(parseInt(state1));
-				
 			}
 		});
-
 
 	function drawChart(q, id, view) {
 		console.log(q);
@@ -452,9 +559,6 @@ Template.map.rendered = function() {
 				.style("fill", "#1a331a")
 				.text("Average BTUs");
 
-		var div = svgChart.append("div")   
-    		.attr("class", "tooltip")               
-    		.style("opacity", 0);
 
 		var barFix = 0;
 		svgChart.selectAll(".barData")
@@ -469,34 +573,149 @@ Template.map.rendered = function() {
 		      	barFix++;
 		      	return "translate(" + xVal + "," + 0 + ")" ; } )
 		      .attr("height", function(d) { return heightChart - y(d); })
-		      .style("fill", "#336633")
-		      .text(function(d) { return d; })
-		      .on("mouseover", function(d) {
-		      	console.log(d);    
-            	div.transition()        
-                	.duration(200)      
-                	.style("opacity", .9);      
-            	div .html("Average BTUs: " + d)  
-                	.style("left", (d3.event.pageX) + "px")     
-                	.style("top", (d3.event.pageY - 28) + "px");    
-            })                  
-        	  .on("mouseout", function(d) {       
-            	div.transition()        
-                	.duration(500)      
-                	.style("opacity", 0);   
-        });
+		      .style("fill", "#336633");
 	}
+
+
+	function drawChartCompare(q1, q2, id, view) {
+		//console.log(q1);
+		//console.log(q2);
+		//console.log($(view).innerWidth());
+		var marginChart = {top: 50, right: 0, bottom: 30, left: 20};
+		var widthChart = $(view).innerWidth()*0.8 - marginChart.left - marginChart.right;
+		var heightChart = $(view).innerWidth() * 0.5 - marginChart.top - marginChart.bottom;
+
+		var x = d3.scale.ordinal()
+			.rangeRoundBands([0, widthChart], .1);
+
+		var y = d3.scale.linear()
+			.range([heightChart, 0]);
+
+		var xAxisChart = d3.svg.axis()
+			.scale(x)
+			.orient("bottom");
+
+		var yAxisChart = d3.svg.axis()
+			.scale(y)
+			.orient("left");
+
+
+		var chart = d3.select(id);
+		chart.selectAll("svg").remove();
+
+
+		var svgChart = d3.select(id).append("svg")
+		   .attr("width", widthChart + marginChart.left + marginChart.right)
+		   .attr("height", heightChart + marginChart.top + marginChart.bottom)
+		   .append("g")
+		   .attr("transform", "translate(" + marginChart.left + "," + marginChart.top + ")");
+
+		// State 1
+		var btus = ["Heating \n BTUs", "Cooling \n BTUs", "Water \n BTUs", "Ref \n BTUs", "Other \n BTUs", "Total \n BTUs"];
+		var resultsNum_1 = Data.find({domain: q1}).count();
+		var heatBTUS_1 = 0;
+		var coolBTUS_1 = 0;
+		var waterBTUS_1 = 0;
+		var refBTUS_1 = 0;
+		var otherBTUS_1 = 0;
+		var totalBTUS_1 = 0;
+		var data1 = Data.find({domain: q1}).fetch();
+		data1.forEach(function (d) {
+			heatBTUS_1 += d["heatBTU"];
+			coolBTUS_1 += d["coolBTU"];
+			waterBTUS_1 += d["waterBTU"];
+			refBTUS_1 += d["refBTU"];
+			otherBTUS_1 += d["otherBTU"];
+			totalBTUS_1 += d["totalBTU"];
+		});
+		var averages_1 = [heatBTUS_1 / resultsNum_1, coolBTUS_1 / resultsNum_1, waterBTUS_1 / resultsNum_1, refBTUS_1 / resultsNum_1, otherBTUS_1 / resultsNum_1, totalBTUS_1 / resultsNum_1];
+		console.log(averages_1);
+
+		// State 2
+		var resultsNum_2 = Data.find({domain: q2}).count();
+		var heatBTUS_2 = 0;
+		var coolBTUS_2 = 0;
+		var waterBTUS_2 = 0;
+		var refBTUS_2 = 0;
+		var otherBTUS_2 = 0;
+		var totalBTUS_2 = 0;
+		var data2 = Data.find({domain: q1}).fetch();
+		data2.forEach(function (d) {
+			heatBTUS_2 += d["heatBTU"];
+			coolBTUS_2 += d["coolBTU"];
+			waterBTUS_2 += d["waterBTU"];
+			refBTUS_2 += d["refBTU"];
+			otherBTUS_2 += d["otherBTU"];
+			totalBTUS_2 += d["totalBTU"];
+		});
+		var averages_2 = [heatBTUS_2 / resultsNum_2, coolBTUS_2 / resultsNum_2, waterBTUS_2 / resultsNum_2, refBTUS_2 / resultsNum_2, otherBTUS_2 / resultsNum_2, totalBTUS_2 / resultsNum_2];
+		console.log(averages_2);
+
+		var averages = [ 	heatBTUS_1 / resultsNum_1, heatBTUS_2 / resultsNum_2, 
+							coolBTUS_1 / resultsNum_1, coolBTUS_2 / resultsNum_2,
+							waterBTUS_1 / resultsNum_1, waterBTUS_2 / resultsNum_2,
+							refBTUS_1 / resultsNum_1, refBTUS_2 / resultsNum_2,
+							otherBTUS_1 / resultsNum_1, otherBTUS_2 / resultsNum_2,
+							totalBTUS_1 / resultsNum_1, totalBTUS_2 / resultsNum_2];
+
+		color = d3.scale.category10();
+
+		x.domain(btus.map(function(d) { return d; }));
+  		y.domain([0, d3.max(averages, function(d) { return d; })]);
+
+	  	svgChart.append("g")
+		      .attr("class", "x axis")
+		      .attr("transform", "translate(0," + heightChart + ")")
+	      .style("fill", "black")
+	      .call(xAxisChart);
+
+		svgChart.append("g")
+				.attr("class", "y axis")
+				.style("fill", "1a331a")
+				.call(yAxisChart)
+				.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 12)
+				.attr("dy", ".71em")
+				.style("text-anchor", "end")
+				.style("fill", "#1a331a")
+				.text("Average BTUs");
+
+		var barFix = 0;
+
+		svgChart.selectAll(".barData")
+			.data(averages)
+		    .enter().append("rect")
+		    .attr("class", "barData")
+		    .attr("x", function(d) { return x(d); })
+		    .attr("width", x.rangeBand()/2)
+		    .attr("y", function(d) { return y(d); })
+		    .attr("transform", function(d) {
+		    	var xVal = ((widthChart / 12) * barFix + 5);
+		      	barFix++;
+		      	return "translate(" + xVal + "," + 0 + ")" ; } )
+		    .attr("height", function(d) { return heightChart - y(d); })
+		      //.style("fill", "#333366");
+		    .style("fill", function(d) {
+		      	var stateID = averages.indexOf(d) % 2;
+		      	if (stateID == 0) {
+		      		return "#310D20";
+		      	}
+		      	return "#0A2239";
+		      });
+	}
+
+	//function donutchart(q, opt, id, view){}
 
 	function drawScatterPlot(q, xaxis, yaxis, key, id, view) {
 
+		var graph = document.getElementById('plotchart');
 		var margin = {top: 50, right: 0, bottom: 30, left: 20},
 			width = $(view).innerWidth()*1 - margin.left - margin.right,
-		    height = $(view).innerWidth()*1 - margin.top - margin.bottom;
+		    height = $(view).innerWidth()*0.75 - margin.top - margin.bottom;
 
-		var plot = d3.select(id);
-		plot.selectAll("svg").remove();
-
-		var svg = d3.select(id).append('svg')
+		var svg = d3.select(graph)
+        	.append('svg')
         	.attr('width', width)
         	.attr('height', height);
 
@@ -518,7 +737,7 @@ Template.map.rendered = function() {
         var cValue = function(d) { return d[key];};
 
         // add the tooltip area to the webpage
-        tooltip = svg.append("div")
+        tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
         
@@ -538,8 +757,8 @@ Template.map.rendered = function() {
           .call(xAxis)
           .append("text")
           .attr("class", "label")
-          .attr("x", 10)
-          .attr("y", 10)
+          .attr("x", width - 20)
+          .attr("y", -6)
           .style("text-anchor", "end")
           .text("heatBTU");
 
@@ -562,12 +781,11 @@ Template.map.rendered = function() {
             .data(data)
             .enter().append("circle")
               .attr("class", "dot")
-              .attr("r", 2) 
+              .attr("r", 3) 
               .attr("cx", xMap)
               .attr("cy", yMap)
               .style("fill", function(d) { return color(cValue(d));}) 
               .on("mouseover", function(d) {
-              	  console.log(d[key] + " " + d[xaxis] + " " + d[yaxis]);
                   tooltip.transition()
                        .duration(200)
                        .style("opacity", .9);
@@ -582,29 +800,6 @@ Template.map.rendered = function() {
                        .style("opacity", 0);
               });
 
-          // draw legend
-          var legend = dots.selectAll(".legend")
-              .data(color.domain())
-            .enter().append("g")
-              .attr("class", "legend")
-              .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-          // draw legend colored rectangles
-          legend.append("rect")
-              .attr("x", width - 50)
-              .attr("y", height - 90)
-              .attr("width", 18)
-              .attr("height", 19)
-              .style("fill", color);
-
-          // draw legend text
-          legend.append("text")
-              .attr("x", width - 55)
-              .attr("y", height - 80)
-              .attr("dy", ".35em")
-              .style("text-anchor", "end")
-              .text(function(d) { return d;})
-
 	}
 
 	function drawParCoords(q, id, view) {
@@ -612,7 +807,7 @@ Template.map.rendered = function() {
 		var pcgraph = document.getElementById('pcchart1');
 
 		var margin = {top: 50, right: 0, bottom: 30, left: 20},
-		    width = $(view).innerWidth()*1 - margin.left - margin.right,
+		    width = $(view).innerWidth()*1.2 - margin.left - margin.right,
 		    height = $(view).innerWidth()*0.75 - margin.top - margin.bottom;
 
 		var x = d3.scale.ordinal().rangePoints([0, width], 1),

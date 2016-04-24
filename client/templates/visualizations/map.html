@@ -4,22 +4,40 @@
   </head>
   <!-- <div id="container" class="ui container" style="position: relative; width: 500px; height: 300px;">
   </div> -->
-  <h3 style="margin-left: 20px;">Click on a state to learn more about the survey results!</h3>
+  <h3 style="margin-left: 50px;">Click on a state to learn more about the survey results!</h3>
 
   
   <body id="body">
-    <div id="container"></div>
-    <div id="states-container">
-      <h3>Selected State:</h3>
-      <ul id="statelist"></ul>
-      <span id="count"></span>
+    <div id="states-picker">
+      <div id="container"></div>
+      <div id="states-list"> 
+        <div id="message"></div>
+        <div id="list"></div>
+      </div>
+    </div>
+
+    <div id="statename-view">
+      <div class="statename-label-div"><h3 id="statename-label" class="label3"> No state has selected!</h3> </div>
+    </div>
+    
+    <div id="statechart-view">
+      <div id="statechart1-view">
+        <div id="barchart" class="chart"></div>
+      </div>
+
+      <div id="statechart2-view"> 
+        <div id="pcchart" class="parcoords"></div>
+      </div>
+
+      <div id="statechart3-view">
+        <div id="plotchart" class="scplot"></div>
+      </div>
+    </div>
+
+    <div id="statechart-option-view">
+      <div class="statecharts-label-div"><h3 id="statechart1-label" class="chartlabel-click" data-index="0"> Bars Chart</h3> </div>
+      <div class="statecharts-label-div"><h3 id="statechart2-label" class="chartlabel-click" data-index="1"> Parallel Coordinates</h3> </div>
+      <div class="statecharts-label-div"><h3 id="statechart3-label" class="chartlabel-click" data-index="2"> Scatters Plot</h3> </div>
     </div>
   </body>
-
-  <body style="width: 100%; height: 100%; margin: 0; padding: 0;">
-     
-    <div id="barchart" class="chart" style="width: 35%; height: 100%; float: left;"></div>
-    <div id="pcchart" class="parcoords" style="width: 65%; height: 100%; float: left;"></div>
-  </body>
-  
 </template>
